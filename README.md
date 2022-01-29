@@ -1,8 +1,8 @@
 # MC Honeypot
-A Minecraft server that is a honeypot, written in TypeScript.
+### A Minecraft server that is a honeypot, written in TypeScript.
 
 ## Installation
-## Docker
+### Docker
 
 Run with 
 ```bash
@@ -11,7 +11,7 @@ docker run --name honeypot --user $(whoami) -d -p 25565:25565 -v /home/$(whoami)
 
 This will run the docker image on the default Minecraft port and put the config file and database file in your user home directory.
 
-## Manual
+### Manual
 You need node version 14 or higher in order to run this program.
 
 ```bash
