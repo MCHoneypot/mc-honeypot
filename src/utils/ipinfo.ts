@@ -47,8 +47,6 @@ export async function getIPInfo(ip: string, attempts: number = 0): Promise<IPInf
 
         return await getIPInfo(ip, ++attempts);
     }
-
-    return undefined;
 }
 
 export async function saveIPInfo(ip: string)
@@ -61,7 +59,6 @@ export async function saveIPInfo(ip: string)
 
     if(await IPInfo.findOne({ ip }))
     {
-        console.log('ipinfo already exists: ' + ip);
         return;
     }
 
@@ -71,6 +68,11 @@ export async function saveIPInfo(ip: string)
         console.error(`failed to retreive ipinfo for ip: ${ip}`);
     }
 
+    if(await IPInfo.findOne({ ip })) // check again because apprently the minecraft client pings a server before joining
+    {
+        return;
+    }
+    
     await IPInfo.create({ 
         ip,
         city: ipinfo!.city,
