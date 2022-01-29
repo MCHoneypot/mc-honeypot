@@ -1,7 +1,7 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import {  existsSync, readFileSync, writeFileSync } from 'fs';
 import toml from 'toml';
 
-const filePath = "./config.toml";
+const filePath = "./files/config.toml";
 
 export interface ServerConfig
 {
@@ -38,6 +38,16 @@ export function loadConfig()
     }
 
     console.log('Loaded config file');
+
+    if(process.env.PORT)
+    {
+        const newPort = parseInt(process.env.PORT);
+        if(!isNaN(newPort))
+        {
+            config.server.port = newPort;
+            console.log('Read port from env: ' + newPort);
+        }
+    }
 }
 
 function createDefaultConfig()
