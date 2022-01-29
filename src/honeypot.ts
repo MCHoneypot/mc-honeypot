@@ -4,6 +4,7 @@ import { formatDate } from "./utils/date";
 import { createServer, Server } from "minecraft-protocol";
 import { config } from "./config";
 import { saveIPInfo } from "./utils/ipinfo";
+import { isUUIDValid } from "./utils/player";
 
 var mcServer: Server;
 
@@ -18,7 +19,7 @@ export async function start()
         host: '0.0.0.0',    
         port: config.server.port,        
         version: config.server.version,
-        hideErrors: true,
+        hideErrors: false,
     
         beforePing: (response, client) => // this can't be async
         {
@@ -68,8 +69,9 @@ export async function start()
         setTimeout(() => ignoredLoginIPs = ignoredLoginIPs.filter(a => a != ip), 5000);
 
         await saveIPInfo(ip);
-        await JoinEvent.create({ ip, username: client.username, uuid: client.uuid, crackedAccount: !config.server.onlineMode }).save();
-        console.log(`Player ${client.username}(${client.uuid}) logged in with the IP ${ip} at ${formatDate(new Date())}`);
+        const validUUID = await isUUIDValid(client.uuid);
+        await JoinEvent.create({ ip, username: client.username, uuid: client.uuid, crackedAccount: !validUUID }).save();
+        console.log(`Player ${client.username}(${client.uuid}) logged in with the IP ${ip} at ${formatDate(new Date())}, crackedAccount: ${!validUUID}`);
 
         kick();
     });
