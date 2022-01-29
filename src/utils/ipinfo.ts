@@ -33,6 +33,8 @@ export async function getIPInfo(ip: string, attempts: number = 0): Promise<IPInf
         {
             throw new Error('IPinfo returned an error!: ' + result.error);
         }
+
+        return result;
     } catch (error) 
     {
         console.error(error);
