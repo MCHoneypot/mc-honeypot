@@ -1,0 +1,29 @@
+{
+  "name": "mc-honeypot",
+  "version": "1.0.0",
+  "description": "A Minecraft server that is a honeypot, written in TypeScript.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist",
+    "dev2": "nodemon .",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "watch": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MCHoneypot/mc-honeypot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/MCHoneypot/mc-honeypot/issues"
+  },
+  "homepage": "https://github.com/MCHoneypot/mc-honeypot#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.13",
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^4.5.5"
+  }
+}
