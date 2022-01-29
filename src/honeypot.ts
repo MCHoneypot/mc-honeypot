@@ -5,6 +5,7 @@ import { createServer, Server } from "minecraft-protocol";
 import { config } from "./config";
 import { saveIPInfo } from "./utils/ipinfo";
 import { isUUIDValid } from "./utils/player";
+import { sendJoinEvent, sendPingEvent } from "./utils/discordwebhook";
 
 var mcServer: Server;
 
@@ -44,8 +45,13 @@ export async function start()
             ignoredPingIPs.push(ip);
             setTimeout(() => ignoredPingIPs = ignoredPingIPs.filter(a => a != ip), 5000);
 
-            saveIPInfo(ip).then(() => PingEvent.create({ ip }).save());
-            console.log(`IP ${ip} pinged the server at ${formatDate(new Date())}`);
+            (async function()
+            {
+                const ipResult = await saveIPInfo(ip);
+                await PingEvent.create({ ip }).save();
+                console.log(`IP ${ip} pinged the server at ${formatDate(new Date())}`);
+                sendPingEvent(ip, ipResult?.country ?? 'Unknown');
+            })();
         }
     });
 
@@ -68,10 +74,11 @@ export async function start()
         ignoredLoginIPs.push(ip);
         setTimeout(() => ignoredLoginIPs = ignoredLoginIPs.filter(a => a != ip), 5000);
 
-        await saveIPInfo(ip);
+        const ipResult = await saveIPInfo(ip);
         const validUUID = await isUUIDValid(client.uuid);
         await JoinEvent.create({ ip, username: client.username, uuid: client.uuid, crackedAccount: !validUUID }).save();
         console.log(`Player ${client.username}(${client.uuid}) logged in with the IP ${ip} at ${formatDate(new Date())}, crackedAccount: ${!validUUID}`);
+        sendJoinEvent(ip, client.username, ipResult?.country ?? 'Unknown', client.uuid);
 
         kick();
     });

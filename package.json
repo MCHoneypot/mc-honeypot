@@ -1,6 +1,6 @@
 {
   "name": "mc-honeypot",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "A Minecraft server that is a honeypot, written in TypeScript.",
   "main": "dist/index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "discord-webhook-ts": "^5.0.0",
     "minecraft-protocol": "^1.30.0",
     "node-fetch": "^2.6.7",
     "reflect-metadata": "^0.1.13",

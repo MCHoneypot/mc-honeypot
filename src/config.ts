@@ -14,9 +14,16 @@ export interface ServerConfig
     onlineMode: boolean;
 }
 
+export interface LoggingConfig
+{
+    joinDiscordWebhook: string;
+    pingDiscordWebhook: string;
+}
+
 export interface Config
 {
     server: ServerConfig;
+    logging: LoggingConfig;
 }
 
 export var config: Config;
@@ -58,25 +65,33 @@ function createDefaultConfig()
 `# This is a TOML configuration file for MCHoneypot
 
 [server]
-# The port to listen on
+# The port to listen on.
 port = 25565
 
-# MOTD to show, this is the default MOTD for a Vanilla Minecraft server
+# MOTD to show, this is the default MOTD for a Vanilla Minecraft server.
 motd = "A Minecraft Server"
 
-# Online player count
+# Online player count.
 online = 0
 
-# Max player count
+# Max player count.
 max = 20
 
-# Minecraft version, supports whatever https://github.com/PrismarineJS/node-minecraft-protocol does
+# Minecraft version, supports whatever https://github.com/PrismarineJS/node-minecraft-protocol does.
 version = "1.18.1"
 
-# Kick message if a player joins
+# Kick message if a player joins.
 kickMsg = "You are not white-listed on this server!"
 
-# Authenticate usernames
+# Authenticate usernames.
 onlineMode = true
+
+[logging]
+# Discord webhook URL to send join events to, leave blank to disable.
+joinDiscordWebhook = ""
+
+# Discord webhook URL to send ping events to, leave blank to disable(WARNING: this can get ratelimited easily by Discord!).
+pingDiscordWebhook = ""
+
 `);
 }
