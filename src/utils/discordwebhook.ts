@@ -1,5 +1,6 @@
 import DiscordWebhook from "discord-webhook-ts";
 import { config } from "../config";
+import { formatStats } from "./stats";
 
 export async function sendJoinEvent(ip: string, username: string, country: string, uuid: string)
 {
@@ -12,11 +13,15 @@ export async function sendJoinEvent(ip: string, username: string, country: strin
     discordClient.execute({
         embeds: [
             {
-                title: 'MCHoneypot | Join Event',
-                description: `IP: ${ip}`,
+                title: 'Join Event',
+                description: await formatStats(),
             },
             {
                 fields: [
+                    {
+                        name: 'IP',
+                        value: ip,
+                    },
                     {
                         name: 'Username',
                         value: username,
@@ -48,11 +53,15 @@ export async function sendPingEvent(ip: string, country: string)
     discordClient.execute({
         embeds: [
             {
-                title: 'MCHoneypot | Ping Event',
-                description: `IP: ${ip}`,
+                title: 'Ping Event',
+                description: await formatStats(),
             },
             {
                 fields: [
+                    {
+                        name: 'IP',
+                        value: ip,
+                    },
                     {
                         name: 'Country',
                         value: country,
